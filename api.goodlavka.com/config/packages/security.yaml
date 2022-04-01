@@ -1,0 +1,44 @@
+security:
+    password_hashers:
+        App\Entity\Shop\User:
+            algorithm: auto
+        App\Entity\Admin\Admin:
+            algorithm: auto
+
+
+
+
+
+    enable_authenticator_manager: true
+    providers:
+        user_provider:
+            entity:
+                class: App\Entity\Admin\Admin
+                property: username
+        admin_provider:
+            entity:
+                class: App\Entity\Admin\Admin
+                property: username
+        # used to reload user from session & other features (e.g. switch_user)
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        admin:
+            pattern: ^/admin
+            lazy: true
+            provider: admin_provider
+            custom_authenticator: App\Security\AdminAuthenticator
+        shop:
+            lazy: true
+            pattern: ^/
+            provider: user_provider
+            custom_authenticator:
+                - App\Security\UserAuthenticator
+
+            #pattern: ^/(main|load-product|about|delete-product)
+            #pattern: ^/(?!(login))
+
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
