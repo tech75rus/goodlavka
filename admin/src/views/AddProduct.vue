@@ -103,7 +103,7 @@ export default {
 				form.append('image['+ i +']', this.base64Images[i]);
 			}
 
-  		axios.post(host + '/load-product', form, {
+  		axios.post(host + '/admin/load-product', form, {
   			headers: {
 				  'Content-Type': 'multipart/form-data',
 				  'token': localStorage.getItem('token')
