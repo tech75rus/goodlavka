@@ -13,8 +13,7 @@ class UserAuthenticator extends AbstractAuthenticator
 {
     public function supports(Request $request): ?bool
     {
-        dd('UserAuthentication');
-        return true;
+        return false;
     }
 
     public function authenticate(Request $request): Passport

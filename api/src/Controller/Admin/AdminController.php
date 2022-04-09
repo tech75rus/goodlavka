@@ -39,7 +39,8 @@ class AdminController extends AbstractController
     {
         if (!$request->request->has('name') ||
             !$request->request->has('email') ||
-            !$request->request->has('password')) {
+            !$request->request->has('password'))
+        {
             return new Response('Не хватает данных', 401);
         }
 
@@ -78,7 +79,8 @@ class AdminController extends AbstractController
     public function login(Request $request): ?Response
     {
         if (!$request->request->has('name') ||
-            !$request->request->has('password')) {
+            !$request->request->has('password'))
+        {
             return new Response('Не хватает данных', 401);
         }
 
