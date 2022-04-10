@@ -8,6 +8,9 @@
 		  <input type="file" ref="file" multiple v-on:change="handleFiles()">
 		  <button>Отправить</button>
 	  </form>
+	  <div class="message" v-if="result">
+		  <p>{{ result }}</p>
+	  </div>
 	  <div class="message" v-if="imageError.length != 0">
 		  <p class="error" v-for="error in imageError">
 			  Не верный формат файла "{{ error }}"
@@ -32,6 +35,7 @@ export default {
 		  price: '',
 		  base64Images: [],
 		  imageError: [],
+		  result: ''
 	  }
 	},
   components: {
@@ -109,9 +113,11 @@ export default {
 				  'token': localStorage.getItem('token')
 			  }
 		  }).then(response => {
+					this.result = 'Данные загружены';
 		      console.log(response);
 	    }).catch(error => {
-		      console.log(error);
+			  this.result = 'Ошибка при загрузке данных';
+			  console.log(error);
 	    });
 	  }
 	}
