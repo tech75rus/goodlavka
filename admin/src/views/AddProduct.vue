@@ -125,15 +125,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "src/assets/scss/message";
 .form {
 	display: inline-grid;
-}
-.error {
-	color: #dc6a23;
-	margin: 3px 0;
-}
-.message {
-	margin-top: 10px;
-	font-size: .9em;
 }
 </style>

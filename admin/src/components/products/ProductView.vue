@@ -6,20 +6,24 @@
 		<img class="image" :src="host + '/images' + getImageURL(data.image, 1)" alt="">
 		<button @click="updateProduct()">Update product</button>
 		<button @click="deleteProduct(data.id)">Delete product</button>
+		<div v-if="message" class="message error">
+			Hello
+		</div>
 	</div>
 </template>
 
 <script>
 import axios from "axios";
-import {host} from "../../service/host";
-import {getImageURL} from "../../service/getImageURL";
+import {host} from "@/service/host";
+import {getImageURL} from "@/service/getImageURL";
 
 export default {
 	name: "ProductView",
 	data() {
 		return {
 			data: [],
-			host: host
+			host: host,
+			message: ''
 		}
 	},
 	created() {
@@ -59,15 +63,17 @@ export default {
 		// 	})
 		// },
 		deleteProduct(id) {
-			axios.post(host +'/delete-product/'+ id, {}, {
+			axios.post(host +'/admin/delete-product/'+ id, {}, {
 				headers: {
 					'token': localStorage.getItem('token')
 				}
 			}).then(response => {
+				this.$router.push('/products');
 				console.log(response);
 			}).catch(error => {
-				console.log('не удалось удалить продукт с id '+ id);
-				console.log(error);
+				this.message = 'Не удалось удалить продукт';
+				// console.log('не удалось удалить продукт с id '+ id);
+				// console.log(error);
 			})
 		},
 		getImageURL
@@ -77,6 +83,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/assets/scss/color";
+@import "src/assets/scss/message";
 
 .product-view {
 	display: grid;
