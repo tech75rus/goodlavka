@@ -2,7 +2,7 @@
 
 namespace App\Entity\Shop;
 
-use App\Repository\UserRepository;
+use App\Repository\Shop\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
      */
     private ?string $username;
 
@@ -34,12 +34,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private string $password;
+    private ?string $password;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private ?string $email;
 
@@ -48,9 +48,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $tokens;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private ?string $random_name;
+
     #[Pure] public function __construct()
     {
         $this->tokens = new ArrayCollection();
+        $this->roles[] = 'ROLE_GUEST';
     }
 
     public function getId(): ?int
@@ -172,6 +178,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $token->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRandomName(): ?string
+    {
+        return $this->random_name;
+    }
+
+    public function setRandomName(string $random_name): self
+    {
+        $this->random_name = $random_name;
 
         return $this;
     }

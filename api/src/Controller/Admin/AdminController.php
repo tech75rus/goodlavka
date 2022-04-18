@@ -6,7 +6,7 @@ use App\Entity\Admin\AdminToken;
 use App\Entity\Shop\Token;
 use App\Entity\Shop\User;
 use App\Repository\Admin\AdminRepository;
-use App\Repository\UserRepository;
+use App\Repository\Shop\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
