@@ -45,15 +45,15 @@ class AdminController extends AbstractController
         }
 
         $name = $request->request->get('name');
+        $surname = $request->request->has('surname') ? $request->request->get('surname') : '';
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
         if ($this->userRepository->findOneBy(['username' => $name]) !== null) {
             return new Response('Такой пользователь есть', 401);
         }
-        $surname = $request->request->has('surname') ? $request->request->get('surname') : '';
-        $email = $request->request->get('email');
         if ($this->userRepository->findOneBy(['email' => $email]) !== null) {
             return new Response('Такой email есть', 401);
         }
-        $password = $request->request->get('password');
 
         $user = new User();
         $user->setUsername($name);

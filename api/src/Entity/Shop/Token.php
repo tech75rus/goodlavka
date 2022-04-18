@@ -39,6 +39,11 @@ class Token
         $this->expiresAt = new \DateTime('+5 hour');
     }
 
+    public function __invoke()
+    {
+        $newDate = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
