@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -22,21 +23,25 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"shop", "admin"})
      */
     private ?string $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"shop", "admin"})
      */
     private ?string $description;
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @Groups({"admin"})
      */
     private ?string $price;
 
     /**
      * @ORM\Column(type="json", length=255, nullable=true)
+     *  @Groups({"admin"})
      */
     private array $image = [];
 

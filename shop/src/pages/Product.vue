@@ -19,13 +19,13 @@
 <!--		  loading="lazy">-->
 	  <h1 class="product-name">{{ data.images }}</h1>
 	  <p class="description">{{ data.description }}</p>
+	  <button @click="clickTest">Click</button>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import {host} from "@/service/host";
-import {getImageURL} from "@/service/getImageURL";
 import {getImage} from "@/service/getImagesForSlider";
 import SimpleAdaptiveSlider from "@/service/SliderAdaptive/SimpleAdaptiveSlider";
 
@@ -37,8 +37,6 @@ export default {
 			host: host,
 			images: []
 		}
-	},
-	async created() {
 	},
 	async mounted() {
 		await axios.get(host + '/products/' + this.$route.params.id)
@@ -54,8 +52,7 @@ export default {
 			autoplay: false,
 			swipe: true
 		});
-
-	},
+	}
 }
 </script>
 

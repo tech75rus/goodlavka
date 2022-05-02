@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -21,6 +22,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="integer")
      */
     private ?int $id;
+
+    /**
+     * @ORM\Column(type="string", length=128)
+     */
+    private ?string $uuid;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true, nullable=true)
@@ -48,15 +54,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $tokens;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private ?string $random_name;
-
     #[Pure] public function __construct()
     {
         $this->tokens = new ArrayCollection();
-        $this->roles[] = 'ROLE_GUEST';
+        $this->uuid = Uuid::v1();
     }
 
     public function getId(): ?int
@@ -93,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_GUEST';
 
         return array_unique($roles);
     }
@@ -182,15 +183,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRandomName(): ?string
+    public function getUuid(): ?string
     {
-        return $this->random_name;
+        return $this->uuid;
     }
 
-    public function setRandomName(string $random_name): self
-    {
-        $this->random_name = $random_name;
-
-        return $this;
-    }
 }

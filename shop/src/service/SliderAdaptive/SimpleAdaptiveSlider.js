@@ -2,6 +2,7 @@
  * SimpleAdaptiveSlider by Itchief v2.0.0 (https://github.com/itchief/ui-components/tree/master/simple-adaptive-slider)
  * Copyright 2020 - 2021 Alexander Maltsev
  * Licensed under MIT (https://github.com/itchief/ui-components/blob/master/LICENSE)
+ * example https://itchief.ru/javascript/simple-adaptive-slider
  */
 
 // базовые классы и селекторы
