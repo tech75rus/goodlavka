@@ -5,15 +5,11 @@ security:
         App\Entity\Admin\Admin:
             algorithm: auto
 
-
-
-
-
     enable_authenticator_manager: true
     providers:
         user_provider:
             entity:
-                class: App\Entity\Admin\Admin
+                class: App\Entity\Shop\User
                 property: username
         admin_provider:
             entity:
@@ -24,14 +20,21 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        test:
+            pattern: ^/test
+#            security: false
+            lazy: true
+            provider: user_provider
+            custom_authenticator:
+                - App\Security\UserAuthenticator
         admin:
-            pattern: ^/admin
+            pattern: ^/admin/
             lazy: true
             provider: admin_provider
             custom_authenticator: App\Security\AdminAuthenticator
         shop:
             lazy: true
-            pattern: ^/
+            pattern: ^/shop/
             provider: user_provider
             custom_authenticator:
                 - App\Security\UserAuthenticator

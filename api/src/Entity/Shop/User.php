@@ -2,13 +2,14 @@
 
 namespace App\Entity\Shop;
 
-use App\Repository\UserRepository;
+use App\Repository\Shop\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -23,7 +24,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=128)
+     */
+    private ?string $uuid;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
      */
     private ?string $username;
 
@@ -34,12 +40,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private string $password;
+    private ?string $password;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private ?string $email;
 
@@ -51,6 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Pure] public function __construct()
     {
         $this->tokens = new ArrayCollection();
+        $this->uuid = Uuid::v1();
     }
 
     public function getId(): ?int
@@ -87,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_GUEST';
 
         return array_unique($roles);
     }
@@ -175,4 +182,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
 }

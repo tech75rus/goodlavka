@@ -34,8 +34,8 @@ export default {
 		axios.get(host + '/products', {})
 			.then(res => {
 				this.products = res.data['hydra:member'];
-			}).catch(err => {
-			console.log(err);
+			}).catch(() => {
+				console.log('Ошибка загрузки продуктов');
 			})
 	},
 	methods: {

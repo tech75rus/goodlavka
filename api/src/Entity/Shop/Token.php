@@ -15,7 +15,7 @@ class Token
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tokens")
@@ -36,7 +36,7 @@ class Token
     public function __construct()
     {
         $this->token = bin2hex(random_bytes(64));
-        $this->expiresAt = new \DateTime('+5 hour');
+        $this->expiresAt = new \DateTime('+6 month');
     }
 
     public function getId(): ?int

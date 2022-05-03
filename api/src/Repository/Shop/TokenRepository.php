@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Shop;
 
 use App\Entity\Shop\Token;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

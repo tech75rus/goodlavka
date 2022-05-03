@@ -18,6 +18,21 @@
   </div>
 </template>
 
+<script>
+import Authentication from "@/service/auth/Authentication";
+
+export default {
+	name: 'App',
+	async created() {
+		Authentication.authentication().then(() => {
+			console.log('authentication ok');
+		}).catch(() => {
+			console.log('authentication don\'t ok');
+		});
+	}
+}
+</script>
+
 <style lang="scss">
 * {
 	padding: 0;
