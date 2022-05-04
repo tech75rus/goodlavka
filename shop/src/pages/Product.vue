@@ -38,7 +38,11 @@ export default {
 		}
 	},
 	async mounted() {
-		await axios.get(host + '/shop/product/' + this.$route.params.id)
+		await axios.get(host + '/shop/product/' + this.$route.params.id, {
+			headers: {
+				'shop-token': localStorage.getItem('shop-token')
+			}
+		})
 			.then(response => {
 				this.data = response.data;
 				this.images = getImage(this.data.image, 1);
