@@ -30,13 +30,17 @@ export default {
 			products: ''
 		}
 	},
-	mounted() {
-		axios.get(host + '/products', {})
-			.then(res => {
-				this.products = res.data['hydra:member'];
-			}).catch(() => {
-				console.log('Ошибка загрузки продуктов');
-			})
+	async created() {
+		await axios.get(host + '/shop/products', {
+			headers: {
+				'shop-token': localStorage.getItem('shop-token')
+			}
+		}).then(res => {
+			this.products = res.data;
+		}).catch(() => {
+			console.log('Ошибка загрузки продуктов');
+		})
+
 	},
 	methods: {
 		getImageURL

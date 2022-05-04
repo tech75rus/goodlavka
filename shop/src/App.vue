@@ -8,7 +8,7 @@
 		</div>
 		<input type="text" placeholder="Поиск">
 	</div>
-	<router-view class="main"/>
+	<router-view class="main" v-if="$store.state.auth"/>
   <div class="menu-mobile">
     <router-link to="/">Главная</router-link>
     <router-link to="/category">Категория</router-link>
@@ -24,7 +24,7 @@ import Authentication from "@/service/auth/Authentication";
 export default {
 	name: 'App',
 	async created() {
-		Authentication.authentication().then(() => {
+		await Authentication.authentication(this.$store).then(() => {
 			console.log('authentication ok');
 		}).catch(() => {
 			console.log('authentication don\'t ok');

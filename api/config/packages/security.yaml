@@ -10,7 +10,7 @@ security:
         user_provider:
             entity:
                 class: App\Entity\Shop\User
-                property: username
+                property: uuid
         admin_provider:
             entity:
                 class: App\Entity\Admin\Admin

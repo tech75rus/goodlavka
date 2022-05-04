@@ -1,35 +1,35 @@
 import axios from "axios";
 import {host} from "@/service/host";
 
-
 export default class Authentication
 {
 
-  static async authentication() {
+  static async authentication(store) {
     if (!localStorage.getItem('shop-token')) {
-      await this.registerGuest();
+      await this.registerGuest(store);
     } else {
-      await this.checkToken();
+      await this.checkToken(store);
     }
   }
 
-  static async registerGuest() {
-    axios.get(host + '/register-guest').then(response => {
-      localStorage.setItem('shop-token', response.headers['shop-token']);
-    }).catch(() => {
-      console.log('Что-то пошло не так с регистрацией гостя');
-    })
-  }
-
-  static async checkToken() {
+  static async checkToken(store) {
     await axios.get(host + '/check-token', {
       headers: {
         'shop-token': localStorage.getItem('shop-token')
       }
-    }).then(response => {
-      console.log(response.data);
+    }).then(() => {
+      store.commit('changeAuth');
     }).catch(() => {
-      this.registerGuest();
+      this.registerGuest(store);
+    })
+  }
+
+  static async registerGuest(store) {
+    await axios.get(host + '/register-guest').then(response => {
+      localStorage.setItem('shop-token', response.headers['shop-token']);
+      store.commit('changeAuth');
+    }).catch(() => {
+      console.log('Что-то пошло не так с регистрацией гостя');
     })
   }
 }

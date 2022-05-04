@@ -36,7 +36,7 @@ class AuthenticationController extends AbstractController
         $this->entityManager->persist($token);
         $this->entityManager->flush();
 
-        return new Response('ShopController -> register()', 201, [
+        return new Response('Гость зарегистрирован', 201, [
             'shop-token' => $token->getToken()
         ]);
     }

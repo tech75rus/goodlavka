@@ -19,7 +19,6 @@
 <!--		  loading="lazy">-->
 	  <h1 class="product-name">{{ data.images }}</h1>
 	  <p class="description">{{ data.description }}</p>
-	  <button @click="clickTest">Click</button>
   </div>
 </template>
 
@@ -39,7 +38,7 @@ export default {
 		}
 	},
 	async mounted() {
-		await axios.get(host + '/products/' + this.$route.params.id)
+		await axios.get(host + '/shop/product/' + this.$route.params.id)
 			.then(response => {
 				this.data = response.data;
 				this.images = getImage(this.data.image, 1);

@@ -2,8 +2,8 @@
 
 namespace App\Controller\Shop;
 
-use App\Entity\Product;
 use App\Repository\ProductRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,21 +18,25 @@ class ProductController extends AbstractController
         $this->productRepository = $productRepository;
     }
 
-    #[Route('/test-product')]
+    #[Route('/shop/products')]
+    #[IsGranted('ROLE_GUEST')]
     public function getProducts(): Response
     {
-        /** @var $product Product */
-        $product = $this->productRepository->findOneBy(['name' => 'test']);
         $products = $this->productRepository->findAll();
-        return $this->json($products, 201, [
-            'test-bla' => 'alksjd73728'
-        ], [
-                'groups' => 'admin'
-            ]
-        );
+        return $this->json($products);
 
 //        dd($products, 'name -> '.$name, 'price -> '.$price);
 //        return $this->json('Product');
 //        return new Response('Products');
+    }
+
+    #[Route('/shop/product/{id}')]
+    #[IsGranted('ROLE_GUEST')]
+    public function getProduct($id): Response
+    {
+        $product = $this->productRepository->findOneBy(['id' => $id]);
+        return $this->json($product, 200, [], [
+//            'groups' => 'shop'
+        ]);
     }
 }
