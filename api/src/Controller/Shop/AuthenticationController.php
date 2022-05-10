@@ -2,6 +2,7 @@
 
 namespace App\Controller\Shop;
 
+use App\Entity\Cart;
 use App\Entity\Shop\Token;
 use App\Entity\Shop\User;
 use App\Repository\Shop\TokenRepository;
@@ -28,10 +29,14 @@ class AuthenticationController extends AbstractController
     public function registerGuest(): ?Response
     {
         $guest = new User();
+        $token = new Token();
+        $cart = new Cart();
         $uuid = Uuid::fromString($guest->getUuid());
         $guest->setUsername('GUEST_' .$uuid->toBase58());
-        $token = new Token();
         $token->setUser($guest);
+        $cart->setUser($guest);
+        $cart->setIsEmpty(1);
+        $this->entityManager->persist($cart);
         $this->entityManager->persist($guest);
         $this->entityManager->persist($token);
         $this->entityManager->flush();
