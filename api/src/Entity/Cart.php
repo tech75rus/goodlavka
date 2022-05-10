@@ -41,9 +41,9 @@ class Cart
     private $user;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default": 1})
      */
-    private $is_empty;
+    private bool $is_empty;
 
     public function __construct()
     {
@@ -93,6 +93,9 @@ class Cart
         if (!$this->create_at) {
             $this->create_at = new \DateTime();
         }
+        if ($this->is_empty) {
+            $this->is_empty = false;
+        }
         $this->update_at = new \DateTime();
 
         return $this;
@@ -110,7 +113,7 @@ class Cart
         return $this;
     }
 
-    public function isEmpty(): ?bool
+    public function isEmpty(): bool
     {
         return $this->is_empty;
     }
