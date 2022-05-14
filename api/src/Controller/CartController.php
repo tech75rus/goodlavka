@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Entity\ProductsCart;
 use App\Entity\Shop\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,8 +35,9 @@ class CartController extends AbstractController
 
     #[Route('/shop/cart/add-product/{id}')]
     #[IsGranted('ROLE_GUEST')]
-    public function addProduct(int $id): Response
+    public function addProduct(int $id, LoggerInterface $logger): Response
     {
+        $logger->info();
         $product = $this->entityManager->getRepository(Product::class)->find($id);
         if (!$product) {
             return $this->json('Don\'t product', 400);
@@ -44,6 +46,13 @@ class CartController extends AbstractController
         $user = $this->getUser();
         /** @var Cart $cart */
         $cart = $user->getCart();
+        if (!$cart) {
+            $cart = new Cart();
+            $cart->setUser($user);
+            $cart->setIsEmpty(true);
+            $this->entityManager->persist($cart);
+            $this->entityManager->flush();
+        }
         /** @var ProductsCart $productsCart */
         $productsCart = $cart->getProductsCarts();
 
