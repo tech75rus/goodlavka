@@ -35,9 +35,8 @@ class CartController extends AbstractController
 
     #[Route('/shop/cart/add-product/{id}')]
     #[IsGranted('ROLE_GUEST')]
-    public function addProduct(int $id, LoggerInterface $logger): Response
+    public function addProduct(int $id): Response
     {
-        $logger->info();
         $product = $this->entityManager->getRepository(Product::class)->find($id);
         if (!$product) {
             return $this->json('Don\'t product', 400);
