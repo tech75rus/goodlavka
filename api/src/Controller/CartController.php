@@ -48,7 +48,7 @@ class CartController extends AbstractController
         if (!$cart) {
             $cart = new Cart();
             $cart->setUser($user);
-            $cart->setIsEmpty(true);
+            $cart->setIsEmpty(false);
             $this->entityManager->persist($cart);
             $this->entityManager->flush();
         }
