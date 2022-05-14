@@ -15,35 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class CartController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
-    /** @var ?User $user */
-    private ?User $user;
-    private ?Cart $cart;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-//        $this->user = $this->getUser();
-//        $this->cart = $this->user->getCart();
         $this->entityManager = $entityManager;
-    }
-
-    #[Route('/test', name: 'test')]
-    public function index(): Response
-    {
-        return new Response('test');
-    }
-
-    #[Route('/test/create-cart')]
-    public function createCart(): ?Response
-    {
-        /** @var Cart $cart */
-        $cart = $this->getUser()->getCart();
-        $cart->setPrice(rand(50, 1000) . '.' . rand(1, 99));
-        $cart->setIsEmpty(false);
-
-        $this->entityManager->persist($cart);
-        $this->entityManager->flush();
-
-        return $this->json('created cart');
     }
 
     #[Route('/test/update-cart')]
@@ -58,21 +33,46 @@ class CartController extends AbstractController
     }
 
     #[Route('/shop/cart/add-product/{id}')]
-    public function addProduct($id): Response
+    #[IsGranted('ROLE_GUEST')]
+    public function addProduct(int $id): Response
     {
-        $product = $this->entityManager->getRepository(Product::class)->findOneBy(['id' => $id]);
-        $price = $product->getPrice();
+        $product = $this->entityManager->getRepository(Product::class)->find($id);
+        if (!$product) {
+            return $this->json('Don\'t product', 400);
+        }
+        /** @var User $user */
+        $user = $this->getUser();
         /** @var Cart $cart */
-        $cart = $this->getUser()->getCart();
+        $cart = $user->getCart();
+        /** @var ProductsCart $productsCart */
+        $productsCart = $cart->getProductsCarts();
 
-        $cart->setPrice(12.12);
-        $this->entityManager->persist($cart);
+        $result = false;
+        $k = 0;
+        foreach ($productsCart as $key => $itemProduct) {
+            if ($itemProduct->getProduct()->getId() === $id) {
+                $result = true;
+                $k = $key;
+            }
+        }
+        if ($result) {
+            /** @var ProductsCart $productCart */
+            $productCart = $productsCart[$k];
+            $productCart->setCount(1);
+        } else {
+            $newProductCart = new ProductsCart();
+            $newProductCart->setCart($cart);
+            $newProductCart->setProduct($product);
+            $newProductCart->setCount(1);
+            $this->entityManager->persist($newProductCart);
+        }
         $this->entityManager->flush();
 
-        return new Response('added product ' .$id);
+        return $this->json($product->getName(). ' added in cart', 201);
     }
 
-    #[Route('/test/clear-cart')]
+    #[Route('/shop/cart/clear-cart')]
+    #[IsGranted('ROLE_GUEST')]
     public function clearCart(): ?Response
     {
         /** @var User $user */
@@ -90,6 +90,8 @@ class CartController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $cart = $user->getCart();
-        return $this->json('here products cart');
+        return $this->json($cart, 201, [], [
+            'groups' => 'shop'
+        ]);
     }
 }

@@ -7,6 +7,7 @@ use App\Repository\CartRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CartRepository::class)
@@ -22,33 +23,45 @@ class Cart
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups("shop")
      */
     private ?float $price;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("shop")
      */
     private ?\DateTime $create_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("shop")
      */
     private ?\DateTime $update_at;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="cart", cascade={"persist", "remove"})
+     * @Groups("shop")
      */
     private $user;
 
     /**
      * @ORM\Column(type="boolean", options={"default": 1})
+     * @Groups("shop")
      */
     private bool $is_empty;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProductsCart::class, mappedBy="cart")
+     * @Groups("shop")
+     */
+    private $productsCarts;
 
     public function __construct()
     {
         $this->create_at = new \DateTime();
         $this->update_at = new \DateTime();
+        $this->productsCarts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,6 +134,36 @@ class Cart
     public function setIsEmpty(bool $is_empty): self
     {
         $this->is_empty = $is_empty;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductsCart[]
+     */
+    public function getProductsCarts(): Collection
+    {
+        return $this->productsCarts;
+    }
+
+    public function addProductsCart(ProductsCart $productsCart): self
+    {
+        if (!$this->productsCarts->contains($productsCart)) {
+            $this->productsCarts[] = $productsCart;
+            $productsCart->setCart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductsCart(ProductsCart $productsCart): self
+    {
+        if ($this->productsCarts->removeElement($productsCart)) {
+            // set the owning side to null (unless already changed)
+            if ($productsCart->getCart() === $this) {
+                $productsCart->setCart(null);
+            }
+        }
 
         return $this;
     }

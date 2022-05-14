@@ -1,18 +1,20 @@
 <template>
   <div class="home">
-	  <router-link
-		  :to="'/product/' + product.id"
+	  <div
 		  class="product"
 		  v-for="product in products">
-		  <img
-			  :src="host + '/images' + getImageURL(product.image, 3)"
-			  :alt="product.name"
-			  loading="lazy"
-		  >
-		  <h4>{{ product.name }}</h4>
-		  <p>{{ product.description }}</p>
-		  <p>{{ product.price }} руб</p>
-	  </router-link>
+			<router-link :to="'/product/' + product.id">
+				<img
+					:src="host + '/images' + getImageURL(product.image, 3)"
+					:alt="product.name"
+					loading="lazy"
+				>
+				<h4>{{ product.name }}</h4>
+				<p>{{ product.description }}</p>
+				<p>{{ product.price }} руб</p>
+			</router-link>
+		  <button class="button" @click="addCart(product.id)">Купить</button>
+	  </div>
   </div>
 </template>
 
@@ -43,7 +45,18 @@ export default {
 
 	},
 	methods: {
-		getImageURL
+		getImageURL,
+		addCart(id) {
+			axios.get(host + '/shop/cart/add-product/' + id, {
+				headers: {
+					'shop-token': localStorage.getItem('shop-token')
+				}
+			}).then(response => {
+				console.log(response);
+			}).catch(error => {
+				console.log(error);
+			})
+		}
 	}
 }
 </script>
@@ -60,8 +73,6 @@ export default {
 	overflow: hidden;
 	border-radius: 8px;
 	background-color: #fff;
-	color: #000;
-	text-decoration: none;
 	padding: 10px;
 
 	-webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16);
@@ -71,6 +82,10 @@ export default {
 		-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
 		-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
 		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
+	}
+	a {
+		color: #000;
+		text-decoration: none;
 	}
 
 	img {
