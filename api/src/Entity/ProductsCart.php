@@ -31,6 +31,7 @@ class ProductsCart
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("shop")
      */
     private $count;
 
