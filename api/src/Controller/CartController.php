@@ -74,9 +74,31 @@ class CartController extends AbstractController
             $newProductCart->setCount(1);
             $this->entityManager->persist($newProductCart);
         }
+        $cart->setUpdateAt();
         $this->entityManager->flush();
 
         return $this->json($product->getName(). ' added in cart', 201);
+    }
+
+    #[Route('/shop/cart-show')]
+    #[IsGranted('ROLE_GUEST')]
+    public function cartShow(): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        /** @var Cart $cart */
+        $cart = $user->getCart();
+        $productDetail = $cart->getProductsCarts();
+        $cartPrice = 0;
+        foreach ($productDetail as $product) {
+            $price = (float)$product->getProduct()->getPrice() * $product->getCount();
+            $product->setPrice($price);
+            $cartPrice += $price;
+        }
+        $cart->setPrice($cartPrice);
+        return $this->json($cart, 201, [], [
+            'groups' => 'shop'
+        ]);
     }
 
     #[Route('/shop/cart/clear-cart')]
@@ -91,15 +113,4 @@ class CartController extends AbstractController
         return new Response('Cart clear');
     }
 
-    #[Route('/shop/cart-show')]
-    #[IsGranted('ROLE_GUEST')]
-    public function deleteUser(): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-        $cart = $user->getCart();
-        return $this->json($cart, 201, [], [
-            'groups' => 'shop'
-        ]);
-    }
 }

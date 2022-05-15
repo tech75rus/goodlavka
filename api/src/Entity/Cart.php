@@ -21,10 +21,7 @@ class Cart
      */
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     * @Groups("shop")
-     */
+    #[Groups('shop')]
     private ?float $price;
 
     /**
@@ -79,6 +76,12 @@ class Cart
         return $this->update_at;
     }
 
+    public function setUpdateAt(): self
+    {
+        $this->update_at = new \DateTime();
+        return $this;
+    }
+
     public function createCart(): self
     {
         $this->create_at = new \DateTime();
@@ -100,7 +103,7 @@ class Cart
         return $this->price;
     }
 
-    public function setPrice(?float $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
         if (!$this->create_at) {

@@ -35,6 +35,9 @@ class ProductsCart
      */
     private $count;
 
+    #[Groups('shop')]
+    private float $price;
+
 
     public function getId(): ?int
     {
@@ -75,5 +78,17 @@ class ProductsCart
         $this->count += $count;
 
         return $this;
+    }
+
+    public function setPrice($price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
     }
 }
