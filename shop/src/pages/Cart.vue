@@ -1,8 +1,11 @@
 <template>
   <div class="basket">
-    <h1>Корзина</h1>
+	  <h1>Корзина</h1>
+	  <p v-for="product in cart.productsCart">
+		  Product - {{product}}
+	  </p>
+	  <p>Сумма - {{cart.price}}</p>
 	  <div class="but">
-		  <button @click="updateCart">Обновить корзину</button>
 		  <button @click="clearCart">Очистить корзину</button>
 	  </div>
   </div>
@@ -13,10 +16,11 @@ import axios from "axios";
 import {host} from "@/service/host";
 
 export default {
-	name: 'Basket',
+	name: 'Cart',
 	data() {
 		return {
 			host: host,
+			cart: '',
 		}
 	},
 	mounted() {
@@ -25,21 +29,13 @@ export default {
 				'shop-token': localStorage.getItem('shop-token')
 			}
 		}).then(response => {
+			this.cart = response.data;
 			console.log(response);
+		}).catch(error => {
+			console.log(error);
 		})
 	},
 	methods: {
-		updateCart() {
-			axios.get(host + '/test/update-cart', {
-				headers: {
-					'shop-token': localStorage.getItem('shop-token')
-				}
-			}).then(response => {
-				console.log(response);
-			}).catch(error => {
-				console.log(error);
-			})
-		},
 		clearCart() {
 			axios.get(host + '/shop/cart/clear-cart', {
 				headers: {

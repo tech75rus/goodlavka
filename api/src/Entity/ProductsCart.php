@@ -24,12 +24,6 @@ class ProductsCart
     private $cart;
 
     /**
-     * @ORM\OneToOne(targetEntity=Product::class, cascade={"persist", "remove"})
-     * @Groups("shop")
-     */
-    private $product;
-
-    /**
      * @ORM\Column(type="integer")
      * @Groups("shop")
      */
@@ -38,6 +32,11 @@ class ProductsCart
     #[Groups('shop')]
     private float $price;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Product::class)
+     */
+    #[Groups('shop')]
+    private $product;
 
     public function getId(): ?int
     {
@@ -52,18 +51,6 @@ class ProductsCart
     public function setCart(?Cart $cart): self
     {
         $this->cart = $cart;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }
@@ -90,5 +77,17 @@ class ProductsCart
     public function getPrice(): ?float
     {
         return $this->price;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
     }
 }
