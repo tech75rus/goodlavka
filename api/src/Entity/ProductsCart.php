@@ -30,7 +30,7 @@ class ProductsCart
     private $count;
 
     #[Groups('shop')]
-    private float $price;
+    private string $price;
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class)
@@ -67,14 +67,14 @@ class ProductsCart
         return $this;
     }
 
-    public function setPrice($price): self
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice(): ?string
     {
         return $this->price;
     }
