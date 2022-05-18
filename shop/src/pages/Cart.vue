@@ -1,10 +1,10 @@
 <template>
   <div class="basket">
 	  <h1>Корзина</h1>
-	  <p v-for="product in cart.productsCart">
-		  Product - {{product}}
-	  </p>
-	  <p>Сумма - {{cart.price}}</p>
+	  <div v-for="detail in cart.productsCarts">
+		  <p>{{ detail.product.name }} Цена - {{ detail.product.price }} - {{detail.count}} шт. - Сумма - {{ detail.price }} ₽</p>
+	  </div>
+	  <p>Сумма корзины - {{cart.price}}</p>
 	  <div class="but">
 		  <button @click="clearCart">Очистить корзину</button>
 	  </div>
@@ -30,7 +30,6 @@ export default {
 			}
 		}).then(response => {
 			this.cart = response.data;
-			console.log(response);
 		}).catch(error => {
 			console.log(error);
 		})
@@ -41,8 +40,10 @@ export default {
 				headers: {
 					'shop-token': localStorage.getItem('shop-token')
 				}
-			}).then(res => {
-				console.log(res);
+			}).then(response => {
+				this.cart = response.data;
+			}).catch(error => {
+				console.log(error);
 			})
 		},
 	}

@@ -2,7 +2,9 @@
   <div class="home">
 	  <div
 		  class="product"
-		  v-for="product in products">
+		  v-for="product in products"
+		  :key="product.id"
+	  >
 			<router-link :to="'/product/' + product.id">
 				<img
 					:src="host + '/images' + getImageURL(product.image, 3)"

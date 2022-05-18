@@ -109,8 +109,16 @@ class CartController extends AbstractController
         $user = $this->getUser();
         $cart = $user->getCart();
         $cart->clearCart();
+        /** @var ProductsCart $product */
+        $productDetail = $cart->getProductsCarts();
+        foreach ($productDetail as $prod) {
+            $this->entityManager->remove($prod);
+        }
         $this->entityManager->flush();
-        return new Response('Cart clear');
+        $cart->setPrice('0');
+        return $this->json($cart, 201, [], [
+            'groups' => 'shop'
+        ]);
     }
 
 }
