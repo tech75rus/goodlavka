@@ -10,14 +10,14 @@ use YooKassa\Client;
 
 class PayController extends AbstractController
 {
-    private $testEnv;
-    private $database;
-
-    public function __construct($testEnv, $database)
-    {
-        $this->testEnv = $testEnv;
-        $this->database = $database;
-    }
+//    private $testEnv;
+//    private $database;
+//
+//    public function __construct($testEnv, $database)
+//    {
+//        $this->testEnv = $testEnv;
+//        $this->database = $database;
+//    }
 
 //    #[Route('/shop/test-pay')]
 //    public function testPay(): Response
