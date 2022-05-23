@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -11,7 +9,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
-#[ApiResource]
 class Product
 {
     /**
@@ -35,15 +32,15 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
-     * @Groups({"admin"})
+     * @Groups({"shop", "admin"})
      */
     private ?string $price;
 
     /**
      * @ORM\Column(type="json", length=255, nullable=true)
-     *  @Groups({"admin"})
+     *  @Groups({"shop", "admin"})
      */
-    private array $image = [];
+    private ?array $image = [];
 
     public function getId(): ?int
     {
@@ -86,12 +83,12 @@ class Product
         return $this;
     }
 
-    public function getImage(): array
+    public function getImage(): ?array
     {
         return $this->image;
     }
 
-    public function setImage(array $image): self
+    public function setImage(?array $image): self
     {
         $this->image = $image;
 

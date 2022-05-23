@@ -22,9 +22,9 @@ const routes = [
     component: () => import('../pages/Favorites')
   },
   {
-    path: '/basket',
-    name: 'Basket',
-    component: () => import('../pages/Basket')
+    path: '/cart',
+    name: 'Cart',
+    component: () => import('../pages/Cart')
   },
   {
     path: '/profile',

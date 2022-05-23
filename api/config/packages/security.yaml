@@ -21,7 +21,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         test:
-            pattern: ^/test
+            pattern: ^/test/
 #            security: false
             lazy: true
             provider: user_provider

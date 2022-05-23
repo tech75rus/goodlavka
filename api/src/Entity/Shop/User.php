@@ -2,6 +2,7 @@
 
 namespace App\Entity\Shop;
 
+use App\Entity\Cart;
 use App\Repository\Shop\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -30,6 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true, nullable=true)
+     * @Groups("shop")
      */
     private ?string $username;
 
@@ -46,6 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     * @Groups("shop")
      */
     private ?string $email;
 
@@ -53,6 +57,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Token::class, mappedBy="user", orphanRemoval=true)
      */
     private $tokens;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Cart::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $cart;
 
     #[Pure] public function __construct()
     {
@@ -186,6 +195,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUuid(): ?string
     {
         return $this->uuid;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($cart === null && $this->cart !== null) {
+            $this->cart->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($cart !== null && $cart->getUser() !== $this) {
+            $cart->setUser($this);
+        }
+
+        $this->cart = $cart;
+
+        return $this;
     }
 
 }

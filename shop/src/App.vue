@@ -13,7 +13,7 @@
     <router-link to="/">Главная</router-link>
     <router-link to="/category">Категория</router-link>
     <router-link to="/favorites">Избранное</router-link>
-    <router-link to="/basket">Корзина</router-link>
+    <router-link to="/cart">Корзина</router-link>
     <router-link to="/profile">Профиль</router-link>
   </div>
 </template>
