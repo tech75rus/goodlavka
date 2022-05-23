@@ -25,5 +25,10 @@ services:
         arguments:
             $dirImage: '%kernel.project_dir%/public/images'
 
+#    App\Controller\Shop\PayController:
+#        arguments:
+#            $testEnv: '%env(TEST_ENV)%'
+#            $database: '%env(DATABASE_URL)%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
