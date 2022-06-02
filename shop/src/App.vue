@@ -8,7 +8,7 @@
 		</div>
 		<input type="text" placeholder="Поиск">
 	</div>
-	<router-view class="main" v-if="$store.state.auth"/>
+  <router-view class="main" v-if="$store.state.auth"/>
   <div class="menu-mobile">
     <router-link to="/">Главная</router-link>
     <router-link to="/category">Категория</router-link>
@@ -16,10 +16,15 @@
     <router-link to="/cart">Корзина</router-link>
     <router-link to="/profile">Профиль</router-link>
   </div>
+  <div>
+    <button @click="test" class="test">test</button>
+  </div>
 </template>
 
 <script>
 import Authentication from "@/service/auth/Authentication";
+import axios from "axios";
+import {host} from "@/service/host";
 
 export default {
 	name: 'App',
@@ -29,7 +34,16 @@ export default {
 		}).catch(() => {
 			console.log('authentication don\'t ok');
 		});
-	}
+	},
+  methods: {
+    test() {
+      axios.get(host + '/test').then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      })
+    }
+  }
 }
 </script>
 
@@ -89,6 +103,10 @@ body {
 		color: #000;
 		font-size: 12px;
 	}
+}
+.test {
+  position: fixed;
+  top: 100px;
 }
 
 @media (max-width: 1260px) {

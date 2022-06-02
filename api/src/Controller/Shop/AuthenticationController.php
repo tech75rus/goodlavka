@@ -55,4 +55,10 @@ class AuthenticationController extends AbstractController
         }
         return new Response('Токен не верен', Response::HTTP_UNAUTHORIZED);
     }
+
+    #[Route('/test')]
+    public function test(): ?Response
+    {
+        return new Response('test');
+    }
 }
