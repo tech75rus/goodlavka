@@ -16,9 +16,6 @@
     <router-link to="/cart">Корзина</router-link>
     <router-link to="/profile">Профиль</router-link>
   </div>
-  <div>
-    <button @click="test" class="test">test</button>
-  </div>
 </template>
 
 <script>
@@ -36,13 +33,6 @@ export default {
 		});
 	},
   methods: {
-    test() {
-      axios.get(host + '/test').then(res => {
-        console.log(res);
-      }).catch(err => {
-        console.log(err);
-      })
-    }
   }
 }
 </script>
@@ -103,10 +93,6 @@ body {
 		color: #000;
 		font-size: 12px;
 	}
-}
-.test {
-  position: fixed;
-  top: 100px;
 }
 
 @media (max-width: 1260px) {

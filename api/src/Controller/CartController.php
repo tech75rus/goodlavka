@@ -88,15 +88,7 @@ class CartController extends AbstractController
         $user = $this->getUser();
         /** @var Cart $cart */
         $cart = $user->getCart();
-        $productDetail = $cart->getProductsCarts();
-        $cartPrice = '0';
-        foreach ($productDetail as $product) {
-            $price = bcmul($product->getProduct()->getPrice(),  (string)$product->getCount(), 2);
-            $product->setPrice($price);
-            $cartPrice = bcadd($cartPrice, $price, 2);
-        }
-        $cart->setPrice($cartPrice);
-        return $this->json($cart, 201, [], [
+        return $this->json($cart->showCart(), 201, [], [
             'groups' => 'shop'
         ]);
     }

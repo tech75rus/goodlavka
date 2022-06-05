@@ -170,4 +170,17 @@ class Cart
 
         return $this;
     }
+
+    public function showCart(): self
+    {
+        $productDetail = $this->getProductsCarts();
+        $cartPrice = '0';
+        foreach ($productDetail as $product) {
+            $price = bcmul($product->getProduct()->getPrice(),  (string)$product->getCount(), 2);
+            $product->setPrice($price);
+            $cartPrice = bcadd($cartPrice, $price, 2);
+        }
+        $this->setPrice($cartPrice);
+        return $this;
+    }
 }
