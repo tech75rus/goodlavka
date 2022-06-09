@@ -21,9 +21,6 @@ class Cart
      */
     private ?int $id;
 
-    #[Groups('shop')]
-    private ?string $price;
-
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Groups("shop")
@@ -53,6 +50,12 @@ class Cart
      * @Groups("shop")
      */
     private $productsCarts;
+
+    /**
+     * @ORM\Column(type="decimal", precision=7, scale=2, nullable=true)
+     * @Groups("shop")
+     */
+    private ?string $price = '0.00';
 
     public function __construct()
     {
@@ -105,7 +108,7 @@ class Cart
 
     public function setPrice(string $price): self
     {
-        $this->price = $price;
+        $this->price = bcadd($this->price, $price, 2);
         if (!$this->create_at) {
             $this->create_at = new \DateTime();
         }
@@ -168,19 +171,6 @@ class Cart
             }
         }
 
-        return $this;
-    }
-
-    public function showCart(): self
-    {
-        $productDetail = $this->getProductsCarts();
-        $cartPrice = '0';
-        foreach ($productDetail as $product) {
-            $price = bcmul($product->getProduct()->getPrice(),  (string)$product->getCount(), 2);
-            $product->setPrice($price);
-            $cartPrice = bcadd($cartPrice, $price, 2);
-        }
-        $this->setPrice($cartPrice);
         return $this;
     }
 }

@@ -37,6 +37,7 @@ class CartController extends AbstractController
     #[IsGranted('ROLE_GUEST')]
     public function addProduct(int $id): Response
     {
+        /** @var Product $product */
         $product = $this->entityManager->getRepository(Product::class)->find($id);
         if (!$product) {
             return $this->json('Don\'t product', 400);
@@ -52,6 +53,7 @@ class CartController extends AbstractController
             $this->entityManager->persist($cart);
             $this->entityManager->flush();
         }
+        $cart->setPrice($product->getPrice());
         /** @var ProductsCart $productsCart */
         $productsCart = $cart->getProductsCarts();
 
@@ -67,11 +69,13 @@ class CartController extends AbstractController
             /** @var ProductsCart $productCart */
             $productCart = $productsCart[$k];
             $productCart->setCount(1);
+            $productCart->setPrice($product->getPrice());
         } else {
             $newProductCart = new ProductsCart();
             $newProductCart->setCart($cart);
             $newProductCart->setProduct($product);
             $newProductCart->setCount(1);
+            $newProductCart->setPrice($product->getPrice());
             $this->entityManager->persist($newProductCart);
         }
         $cart->setUpdateAt();
@@ -86,9 +90,7 @@ class CartController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        /** @var Cart $cart */
-        $cart = $user->getCart();
-        return $this->json($cart->showCart(), 201, [], [
+        return $this->json($user->getCart(), 201, [], [
             'groups' => 'shop'
         ]);
     }
@@ -106,8 +108,8 @@ class CartController extends AbstractController
         foreach ($productDetail as $prod) {
             $this->entityManager->remove($prod);
         }
-        $this->entityManager->flush();
         $cart->setPrice('0');
+        $this->entityManager->flush();
         return $this->json($cart, 201, [], [
             'groups' => 'shop'
         ]);
