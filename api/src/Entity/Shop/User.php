@@ -3,6 +3,7 @@
 namespace App\Entity\Shop;
 
 use App\Entity\Cart;
+use App\Entity\Payment;
 use App\Repository\Shop\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -63,10 +64,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $cart;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Payment::class, mappedBy="id_user", orphanRemoval=true)
+     */
+    private $payments;
+
     #[Pure] public function __construct()
     {
         $this->tokens = new ArrayCollection();
         $this->uuid = Uuid::v1();
+        $this->payments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +222,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->cart = $cart;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getIdUser() === $this) {
+                $payment->setIdUser(null);
+            }
+        }
 
         return $this;
     }

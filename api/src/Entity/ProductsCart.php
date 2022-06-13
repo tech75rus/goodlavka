@@ -30,7 +30,7 @@ class ProductsCart
     private $count;
 
     /**
-     * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @ORM\Column(type="decimal", precision=7, scale=2, nullable=true)
      */
     #[Groups('shop')]
     private ?string $price = '0.00';
