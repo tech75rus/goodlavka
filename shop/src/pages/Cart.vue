@@ -7,6 +7,7 @@
 	  <p>Сумма корзины - {{cart.price}}</p>
 	  <div class="but">
 		  <button @click="clearCart">Очистить корзину</button>
+      <button @click="pay" class="pay">Купить</button>
 	  </div>
   </div>
 </template>
@@ -46,6 +47,17 @@ export default {
 				console.log(error);
 			})
 		},
+    pay() {
+      axios.post(host + '/shop/test-pay', {}, {
+        headers: {
+          'shop-token': localStorage.getItem('shop-token')
+        }
+      }).then(response => {
+        window.location.href = response.data
+      }).catch(error => {
+        console.log(error);
+      })
+    }
 	}
 }
 </script>
@@ -64,5 +76,8 @@ button {
 		cursor: pointer;
 		background-color: #e38ba3;
 	}
+}
+.pay:hover {
+  background-color: #8be38f;
 }
 </style>

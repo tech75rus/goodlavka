@@ -8,7 +8,7 @@
 		</div>
 		<input type="text" placeholder="Поиск">
 	</div>
-	<router-view class="main" v-if="$store.state.auth"/>
+  <router-view class="main" v-if="$store.state.auth"/>
   <div class="menu-mobile">
     <router-link to="/">Главная</router-link>
     <router-link to="/category">Категория</router-link>
@@ -20,6 +20,8 @@
 
 <script>
 import Authentication from "@/service/auth/Authentication";
+import axios from "axios";
+import {host} from "@/service/host";
 
 export default {
 	name: 'App',
@@ -29,7 +31,9 @@ export default {
 		}).catch(() => {
 			console.log('authentication don\'t ok');
 		});
-	}
+	},
+  methods: {
+  }
 }
 </script>
 

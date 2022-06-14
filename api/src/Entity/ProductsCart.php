@@ -29,8 +29,11 @@ class ProductsCart
      */
     private $count;
 
+    /**
+     * @ORM\Column(type="decimal", precision=7, scale=2, nullable=true)
+     */
     #[Groups('shop')]
-    private string $price;
+    private ?string $price = '0.00';
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class)
@@ -67,16 +70,16 @@ class ProductsCart
         return $this;
     }
 
-    public function setPrice(string $price): self
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
     public function getPrice(): ?string
     {
         return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = bcadd($this->price, $price, 2);
+
+        return $this;
     }
 
     public function getProduct(): ?Product
