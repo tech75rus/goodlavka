@@ -91,7 +91,7 @@ body {
 
 	a {
 		text-decoration: none;
-//		color: #1d1d1d;
+		color: #000;
 		font-size: 12px;
 	}
 }
