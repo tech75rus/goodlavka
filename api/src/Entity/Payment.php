@@ -7,6 +7,7 @@ use App\Repository\PaymentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PaymentRepository::class)
@@ -28,6 +29,7 @@ class Payment
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("shop")
      */
     private ?string $id_yookassa;
 

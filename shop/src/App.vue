@@ -83,6 +83,7 @@ body {
 	bottom: 15px;
 	left: 2%;
 	background-color: #2FC537;
+//  background-color: #8E6AF2;
 	padding: 20px 0;
 	border-radius: 8px;
 	display: flex;
