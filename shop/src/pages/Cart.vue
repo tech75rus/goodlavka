@@ -1,8 +1,18 @@
 <template>
   <div class="basket">
 	  <h1>Корзина</h1>
-	  <div v-for="detail in cart.productsCarts">
-		  <p>{{ detail.product.name }} Цена - {{ detail.product.price }} - {{detail.count}} шт. - Сумма - {{ detail.price }} ₽</p>
+	  <div class="cart-detail" v-for="detail in cart.productsCarts">
+      <router-link :to="'/product/' + detail.product.id">
+        <img
+            class="cart-detail-image"
+            :src="host + '/images' + getImageURL(detail.product.image, 3)"
+            :alt="detail.product.name"
+        >
+        <p class="cart-detail-name">{{ detail.product.name }} </p>
+      </router-link>
+      <p class="cart-detail-price">{{ detail.product.price }}</p>
+      <p class="cart-detail-count">{{detail.count}} шт.</p>
+      <p class="cart-detail-sum">{{ detail.price }} ₽</p>
 	  </div>
 	  <p>Сумма корзины - {{cart.price}}</p>
 	  <div class="but">
@@ -15,6 +25,7 @@
 <script>
 import axios from "axios";
 import {host} from "@/service/host";
+import {getImageURL} from "@/service/getImageURL";
 
 export default {
 	name: 'Cart',
@@ -36,6 +47,7 @@ export default {
 		})
 	},
 	methods: {
+    getImageURL,
 		clearCart() {
 			axios.get(host + '/shop/cart/clear-cart', {
 				headers: {
@@ -79,5 +91,36 @@ button {
 }
 .pay:hover {
   background-color: #8be38f;
+}
+.cart-detail {
+  display: grid;
+  grid-template-areas:
+    "image price count sum"
+    "name price count sum";
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #000;
+  padding: 5px;
+  margin: 10px 0;
+  >a {
+    text-decoration: none;
+    color: #000000;
+  }
+  .cart-detail-image {
+    width: 100px;
+    grid-area: image;
+  }
+  .cart-detail-name {
+    grid-area: name;
+  }
+  .cart-detail-price {
+    grid-area: price;
+  }
+  .cart-detail-count {
+    grid-area: count;
+  }
+  .cart-detail-sum {
+    grid-area: sum;
+  }
 }
 </style>
