@@ -1,7 +1,7 @@
 <template>
   <div class="basket">
 	  <h1>Корзина</h1>
-	  <div class="cart-detail" v-for="detail in cart.productsCarts">
+	  <div class="cart-detail border" v-for="detail in cart.productsCarts">
       <router-link :to="'/product/' + detail.product.id">
         <img
             class="cart-detail-image"
@@ -75,6 +75,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "src/assets/scss/border";
 .but {
 	margin-top: 20px;
 }
@@ -99,8 +100,7 @@ button {
     "name price count sum";
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #000;
-  padding: 5px;
+  padding: 8px 15px;
   margin: 10px 0;
   >a {
     text-decoration: none;

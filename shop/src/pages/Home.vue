@@ -1,7 +1,7 @@
 <template>
   <div class="home">
 	  <div
-		  class="product"
+		  class="product border"
 		  v-for="product in products"
 		  :key="product.id"
 	  >
@@ -65,6 +65,7 @@ export default {
 
 <style lang="scss">
 @import "src/assets/scss/button";
+@import "src/assets/scss/border.scss";
 
 .home {
 	display: grid;
@@ -72,19 +73,6 @@ export default {
 	grid-gap: 15px;
 }
 .product {
-	overflow: hidden;
-	border-radius: 8px;
-	background-color: #fff;
-	padding: 10px;
-
-	-webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16);
-	-moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16);
-	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16);
-	&:hover {
-		-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
-		-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
-		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
-	}
 	a {
 		color: #000;
 		text-decoration: none;
