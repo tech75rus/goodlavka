@@ -29,17 +29,19 @@ class Payment
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups("shop")
+     * @Groups({"shop", "profile"})
      */
     private ?string $id_yookassa;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"shop", "profile"})
      */
     private ?string $status;
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @Groups({"shop", "profile"})
      */
     private ?string $price;
 
@@ -55,6 +57,7 @@ class Payment
 
     /**
      * @ORM\OneToMany(targetEntity=PaymentDetail::class, mappedBy="id_payment", orphanRemoval=true)
+     * @Groups({"shop", "profile"})
      */
     private $paymentDetails;
 

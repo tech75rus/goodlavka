@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true, nullable=true)
-     * @Groups("shop")
+     * @Groups({"shop", "profile"})
      */
     private ?string $username;
 
@@ -51,7 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
-     * @Groups("shop")
+     * @Groups({"shop", "profile"})
      */
     private ?string $email;
 
@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Payment::class, mappedBy="id_user", orphanRemoval=true)
-     * @Groups("shop")
+     * @Groups({"shop", "profile"})
      */
     private $payments;
 
