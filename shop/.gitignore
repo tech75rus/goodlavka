@@ -2,6 +2,7 @@
 node_modules
 /dist
 src/service/host.js
+public/test
 
 # local env files
 .env.local
