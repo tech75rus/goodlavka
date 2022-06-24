@@ -7,7 +7,7 @@
         <p>6261</p>
         <h2>Сумма</h2>
         <p>234 руб</p>
-        <span class="profile_main_detail" @click="showHidden(this)">Дополнительная информация</span>
+        <span class="profile_main_detail" @click="showHidden">Дополнительная информация</span>
       </div>
       <div class="profile_detail">
         <div class="profile_detail_image">
@@ -42,7 +42,7 @@
         <p>6261</p>
         <h2>Сумма</h2>
         <p>234 руб</p>
-        <span class="profile_main_detail" @click="showHidden(even)">Дополнительная информация</span>
+        <span class="profile_main_detail" @click="showHidden">Дополнительная информация</span>
       </div>
       <div class="profile_detail">
         <div class="profile_detail_image">
@@ -98,7 +98,18 @@ export default {
   },
   methods: {
     showHidden(event) {
-      console.log(event.target);
+      let main = event.target.parentElement.parentElement;
+      let profileDetail = main.querySelectorAll('.profile_detail');
+      let firstElement = profileDetail[0].style.display;
+      if (firstElement === '' || firstElement === 'none') {
+        for (let detail of profileDetail) {
+          detail.style.display = 'grid';
+        }
+      } else {
+        for (let detail of profileDetail) {
+          detail.style.display = 'none';
+        }
+      }
     }
   }
 }
@@ -121,7 +132,7 @@ export default {
   color: #229426;
 }
 .profile_detail {
-  display: grid;
+  display: none;
   grid-template-columns: auto 1fr;
   justify-items: start;
   margin-top: 25px;
