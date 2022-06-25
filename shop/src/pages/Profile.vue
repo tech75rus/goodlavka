@@ -7,6 +7,8 @@
         <p>{{payment.id_yookassa}}</p>
         <h2>Сумма</h2>
         <p>{{payment.price}} руб</p>
+        <h2>Дата</h2>
+        <p>{{payment.at_create}}</p>
         <span class="profile_main_detail" @click="showHidden">Дополнительная информация</span>
       </div>
       <div class="profile_detail" v-for="detail in payment.paymentDetails">

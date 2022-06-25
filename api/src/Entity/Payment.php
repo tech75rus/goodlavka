@@ -47,6 +47,7 @@ class Payment
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"profile"})
      */
     private ?\DateTimeInterface $at_create;
 
@@ -119,9 +120,9 @@ class Payment
         return $this;
     }
 
-    public function getAtCreate(): ?\DateTimeInterface
+    public function getAtCreate(): ?string
     {
-        return $this->at_create;
+        return $this->at_create->format('Y-m-d h:i');
     }
 
     public function setAtCreate(\DateTimeInterface $at_create): self
