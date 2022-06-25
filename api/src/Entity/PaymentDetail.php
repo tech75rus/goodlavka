@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PaymentDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PaymentDetailRepository::class)
@@ -25,26 +26,31 @@ class PaymentDetail
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class)
+     * @Groups({"profile"})
      */
     private $id_product;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"shop", "profile"})
      */
     private ?string $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"shop", "profile"})
      */
     private ?string $description;
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @Groups({"shop", "profile"})
      */
     private ?string $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"shop", "profile"})
      */
     private ?int $count;
 

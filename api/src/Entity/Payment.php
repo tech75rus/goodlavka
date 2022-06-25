@@ -29,22 +29,25 @@ class Payment
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Groups("shop")
+     * @Groups({"shop", "profile"})
      */
     private ?string $id_yookassa;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"shop", "profile"})
      */
     private ?string $status;
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @Groups({"shop", "profile"})
      */
     private ?string $price;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"profile"})
      */
     private ?\DateTimeInterface $at_create;
 
@@ -55,6 +58,7 @@ class Payment
 
     /**
      * @ORM\OneToMany(targetEntity=PaymentDetail::class, mappedBy="id_payment", orphanRemoval=true)
+     * @Groups({"shop", "profile"})
      */
     private $paymentDetails;
 
@@ -116,9 +120,9 @@ class Payment
         return $this;
     }
 
-    public function getAtCreate(): ?\DateTimeInterface
+    public function getAtCreate(): ?string
     {
-        return $this->at_create;
+        return $this->at_create->format('Y-m-d h:i');
     }
 
     public function setAtCreate(\DateTimeInterface $at_create): self
