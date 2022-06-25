@@ -11,7 +11,7 @@
       </div>
       <div class="profile_detail" v-for="detail in payment.paymentDetails">
         <div class="profile_detail_image">
-          <img src="../../public/test/150x150-629cc44d7c717.webp">
+          <img :src="host + '/images' + getImageURL(detail.id_product.image, 3)">
         </div>
         <div class="profile_detail_text">
           <h2>Наименование</h2>
@@ -29,11 +29,13 @@
 <script>
 import axios from "axios";
 import {host} from "@/service/host";
+import {getImageURL} from "@/service/getImageURL";
 
 export default {
   name: 'Profile',
   data() {
     return {
+      host: host,
       payments: ''
     }
   },
@@ -63,7 +65,8 @@ export default {
           detail.style.display = 'none';
         }
       }
-    }
+    },
+    getImageURL
   }
 }
 </script>
@@ -76,6 +79,7 @@ export default {
 }
 .profile_main {
   display: grid;
+  gap: 10px 0;
   grid-template-columns: 1fr 1fr;
   justify-items: start;
 }
@@ -98,6 +102,8 @@ export default {
 }
 .profile_detail_image {
   margin-right: 15px;
+  width: 70px;
+  min-height: 70px;
   img {
     width: 70px;
   }

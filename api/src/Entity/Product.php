@@ -39,7 +39,7 @@ class Product
 
     /**
      * @ORM\Column(type="json", length=255, nullable=true)
-     *  @Groups({"shop", "admin"})
+     *  @Groups({"shop", "admin", "profile"})
      */
     private ?array $image = [];
 

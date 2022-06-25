@@ -26,6 +26,7 @@ class PaymentDetail
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class)
+     * @Groups({"profile"})
      */
     private $id_product;
 
