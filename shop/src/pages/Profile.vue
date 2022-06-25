@@ -1,73 +1,25 @@
 <template>
   <div class="profile">
     <h1>Гость</h1>
-    <div class="profile_container border">
+    <div class="profile_container border" v-for="payment in payments" :key="payment.id_yookassa">
       <div class="profile_main">
         <h2>Заказ №</h2>
-        <p>6261</p>
+        <p>{{payment.id_yookassa}}</p>
         <h2>Сумма</h2>
-        <p>234 руб</p>
+        <p>{{payment.price}} руб</p>
         <span class="profile_main_detail" @click="showHidden">Дополнительная информация</span>
       </div>
-      <div class="profile_detail">
+      <div class="profile_detail" v-for="detail in payment.paymentDetails">
         <div class="profile_detail_image">
           <img src="../../public/test/150x150-629cc44d7c717.webp">
         </div>
         <div class="profile_detail_text">
           <h2>Наименование</h2>
-          <p>Футболка</p>
+          <p>{{detail.name}}</p>
           <h2>Цена</h2>
-          <p>77 руб</p>
+          <p>{{detail.price}} руб</p>
           <h2>Количество</h2>
-          <p>2 шт</p>
-        </div>
-      </div>
-      <div class="profile_detail">
-        <div class="profile_detail_image">
-          <img src="../../public/test/150x150-629cc44d7c717.webp">
-        </div>
-        <div class="profile_detail_text">
-          <h2>Наименование</h2>
-          <p>Футболка</p>
-          <h2>Цена</h2>
-          <p>77 руб</p>
-          <h2>Количество</h2>
-          <p>2 шт</p>
-        </div>
-      </div>
-    </div>
-    <div class="profile_container border">
-      <div class="profile_main">
-        <h2>Заказ №</h2>
-        <p>6261</p>
-        <h2>Сумма</h2>
-        <p>234 руб</p>
-        <span class="profile_main_detail" @click="showHidden">Дополнительная информация</span>
-      </div>
-      <div class="profile_detail">
-        <div class="profile_detail_image">
-          <img src="../../public/test/150x150-629cc44d7c717.webp">
-        </div>
-        <div class="profile_detail_text">
-          <h2>Наименование</h2>
-          <p>Футболка</p>
-          <h2>Цена</h2>
-          <p>77 руб</p>
-          <h2>Количество</h2>
-          <p>2 шт</p>
-        </div>
-      </div>
-      <div class="profile_detail">
-        <div class="profile_detail_image">
-          <img src="../../public/test/150x150-629cc44d7c717.webp">
-        </div>
-        <div class="profile_detail_text">
-          <h2>Наименование</h2>
-          <p>Футболка</p>
-          <h2>Цена</h2>
-          <p>77 руб</p>
-          <h2>Количество</h2>
-          <p>2 шт</p>
+          <p>{{detail.count}} шт</p>
         </div>
       </div>
     </div>
@@ -82,7 +34,7 @@ export default {
   name: 'Profile',
   data() {
     return {
-      //host: ''
+      payments: ''
     }
   },
   created() {
@@ -92,6 +44,7 @@ export default {
       }
     }).then(response => {
       console.log(response);
+      this.payments = response.data.payments
     }).catch(error => {
       console.log(error);
     })
