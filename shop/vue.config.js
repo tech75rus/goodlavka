@@ -1,7 +1,10 @@
 module.exports = {
   pwa: {
     name: 'goodlavka',
-    themeColor: '#2FC537'
+    themeColor: '#2FC537',
+    workboxOptions: {
+      skipWaiting: true
+    }
   },
   devServer: {
     proxy: 'https://127.0.0.1:8000/',
