@@ -11,7 +11,6 @@
   <router-view class="main" v-if="$store.state.auth"/>
   <div class="menu-mobile">
     <router-link to="/">Главная</router-link>
-    <router-link to="/category">Категория</router-link>
     <router-link to="/favorites">Избранное</router-link>
     <router-link to="/cart">Корзина</router-link>
     <router-link to="/profile">Профиль</router-link>
