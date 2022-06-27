@@ -12,7 +12,6 @@
 					loading="lazy"
 				>
 				<h4>{{ product.name }}</h4>
-				<p>{{ product.description }}</p>
 				<p>{{ product.price }} руб</p>
 			</router-link>
 		  <button class="button" @click="addCart(product.id)">Купить</button>
